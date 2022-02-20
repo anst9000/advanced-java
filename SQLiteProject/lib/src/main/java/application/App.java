@@ -13,25 +13,22 @@ public class App {
 		persons.put(2, "Bob");
 		persons.put(3, "Charley");
 
-//		int[] ids = { 1, 2, 3 };
-//		String[] names = { "Sue", "Bob", "Charley" };
+		// Connection string for SQLite
+//		Class.forName("org.sqlite.JDBC");
+//		String dbUrl = "jdbc:sqlite:res/people.db";
+
+		// Connection string for MySQL
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		String dbUrl = "jdbc:mysql://localhost:3306/people";
+
 		
-		Class.forName("org.sqlite.JDBC");
-		
-		String dbUrl = "jdbc:sqlite:res/people.db";
-		
-		var conn = DriverManager.getConnection(dbUrl);
+		var conn = DriverManager.getConnection(dbUrl, "coltla", "ksbv27");
 		var stmt = conn.createStatement();
 		conn.setAutoCommit(false);;
 		
-		
-		// Create table 'user'
-		var sql = "create table if not exists user (id integer primary key, name text not null)";
-		stmt.execute(sql);
-
 
 		// Insert entries to DB people 
-		sql = "insert into user (id, name) values(?, ?)";
+		var sql = "insert into users (id, name) values(?, ?)";
 		var insertStmt = conn.prepareStatement(sql);
 
 		for (Map.Entry<Integer, String> entry : persons.entrySet()) {
@@ -49,7 +46,7 @@ public class App {
 
 		
 		// Request info from DB
-		sql = "select id, name from user";
+		sql = "select id, name from users";
 		var rs = stmt.executeQuery(sql);
 		
 		while (rs.next()) {
@@ -58,9 +55,7 @@ public class App {
 			
 			System.out.println("id is " + id + " and name is " + name);
 		}
-		
-		sql = "drop table user";
-//		stmt.execute(sql);
+
 		
 		stmt.close();		
 		conn.close();

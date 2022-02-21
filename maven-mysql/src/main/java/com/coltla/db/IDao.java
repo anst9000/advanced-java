@@ -1,5 +1,6 @@
 package com.coltla.db;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IDao<T> {
@@ -8,7 +9,9 @@ public interface IDao<T> {
 	
 	Optional<T> findById(int id);
 
-	void update(T t);
+	void update(User user);
 	
 	void delete(int id);
+	
+	List<T> getAll();
 }

@@ -53,7 +53,6 @@ public class App {
 			user.setId(id);
 			user.setName(name);
 
-			System.out.println("--> " + user);
 			userDao.update(user);
 		}
 		
